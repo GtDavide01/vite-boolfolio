@@ -29,6 +29,14 @@ export default {
     />
     <div class="card-body">
       <h5 class="card-title">{{ project.title }}</h5>
+      <p>
+        <span v-for="technology in project.technologies" :key="technology.id"
+          >#{{ technology.name }}</span
+        >
+      </p>
+      <p>
+        Tipologia : {{ project.type ? project.type.name : "Nessuna tipologia" }}
+      </p>
       <p class="card-text">
         {{ contentPreview }}
       </p>
