@@ -4,6 +4,10 @@ export default {
 };
 </script>
 
-<template></template>
+<template>
+  <main>
+    <H2>CIAO</H2>
+  </main>
+</template>
 
 <style lang="scss"></style>
