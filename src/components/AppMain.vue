@@ -1,8 +1,8 @@
 <script>
 import axios from "axios";
+import AppCard from "./AppCard.vue";
 export default {
   name: "AppMain",
-
   data() {
     return {
       // variabile che conterra tutti i progetti presi da axios
@@ -11,6 +11,7 @@ export default {
       urlAxios: "http://localhost:8000",
     };
   },
+  components: { AppCard },
   created() {
     this.getProjects();
   },
@@ -18,8 +19,8 @@ export default {
     getProjects() {
       axios.get(`${this.urlAxios}/api/projects`).then((resp) => {
         this.projects = resp.data.results;
+        console.log(this.projects);
       });
-      console.log(this.projects);
     },
   },
 };
@@ -28,7 +29,20 @@ export default {
 <template>
   <main>
     <div class="container">
-      <h2>Tutti i progetti!</h2>
+      <section class="title">
+        <h2>Tutti i progetti!</h2>
+      </section>
+      <section class="allcard d-flex flex-wrap">
+        <div class="row justify-content-center">
+          <div class="d-flex flex-wrap gap-4">
+            <AppCard
+              :project="project"
+              v-for="project in projects"
+              :key="project.id"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 </template>
@@ -36,5 +50,10 @@ export default {
 <style lang="scss">
 main {
   background-color: #add8ff;
+  .title {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+  }
 }
 </style>
