@@ -9,16 +9,27 @@ export default {
       projects: [],
       //url per fare chiamata axios
       urlAxios: "http://localhost:8000",
+      currentPage: 1,
+      lastPage: null,
+      totalProjects: null,
     };
   },
   components: { AppCard },
   created() {
-    this.getProjects();
+    this.getProjects(1);
   },
   methods: {
-    getProjects() {
-      axios.get(`${this.urlAxios}/api/projects`).then((resp) => {
-        this.projects = resp.data.results;
+    getProjects(page) {
+      const options = {
+        params: {
+          page,
+        },
+      };
+      axios.get(`${this.urlAxios}/api/projects`, options).then((resp) => {
+        this.projects = resp.data.results.data;
+        this.currentPage = resp.data.results.current_page;
+        this.lastPage = resp.data.results.last_page;
+        this.totalProjects = resp.data.results.total;
         console.log(this.projects);
       });
     },
@@ -32,7 +43,10 @@ export default {
       <section class="title">
         <h2>Tutti i progetti!</h2>
       </section>
-      <section class="allcard d-flex flex-wrap">
+      <section>
+        <h3>I progetti trovati sono {{ totalProjects }}</h3>
+      </section>
+      <section class="allcard flex-wrap">
         <div class="row justify-content-center">
           <div class="d-flex flex-wrap gap-4">
             <AppCard
@@ -43,13 +57,32 @@ export default {
           </div>
         </div>
       </section>
+
+      <nav class="navigation d-flex justify-content-between">
+        <div>
+          Pagina {{ currentPage }} di {{ lastPage }}
+          <a
+            class="btn btn-success me-2"
+            :class="currentPage === 1 ? 'disabled' : ''"
+            href=""
+            @click.prevent="getProjects(currentPage - 1)"
+            >Indietro</a
+          >
+          <a
+            class="btn btn-success"
+            :class="currentPage === lastPage ? 'disabled' : ''"
+            href=""
+            @click.prevent="getProjects(currentPage + 1)"
+            >Avanti</a
+          >
+        </div>
+      </nav>
     </div>
   </main>
 </template>
 
 <style lang="scss">
 main {
-  background-color: #add8ff;
   .title {
     display: flex;
     justify-content: center;

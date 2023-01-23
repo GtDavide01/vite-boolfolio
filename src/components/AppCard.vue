@@ -40,7 +40,12 @@ export default {
       <p class="card-text">
         {{ contentPreview }}
       </p>
-      <a href="#" class="btn btn-primary">Maggiori Dettagli</a>
+      <router-link
+        :to="{ name: 'single-project', params: { slug: project.slug } }"
+        class="btn btn-primary"
+        href=""
+        >Maggiori Dettagli</router-link
+      >
     </div>
   </div>
 </template>
