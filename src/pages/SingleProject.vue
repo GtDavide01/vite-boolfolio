@@ -19,6 +19,11 @@ export default {
       }
     });
   },
+  computed: {
+    type() {
+      return this.project.type ? this.project.type.name : "Nessuna categoria";
+    },
+  },
 };
 </script>
 
@@ -26,6 +31,9 @@ export default {
   <main>
     <section>
       <h1 class="mt-5 mb-3 text-center">{{ project.title }}</h1>
+      <h5 class="text-center mt-2 text-uppercase text-primary">
+        {{ type }}
+      </h5>
       <div class="container text-center">
         <img
           v-if="project.image"
