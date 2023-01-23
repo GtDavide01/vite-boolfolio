@@ -26,9 +26,12 @@ export default {
       const options = {
         params: {
           page,
-          ...(this.typeChange && { types_id: this.typeChange }),
         },
       };
+      if (this.typeChange !== "") {
+        options.params.types_id = this.typeChange;
+      }
+      console.log(options);
       axios.get(`${this.urlAxios}/api/projects`, options).then((resp) => {
         this.projects = resp.data.results.data;
         this.currentPage = resp.data.results.current_page;
